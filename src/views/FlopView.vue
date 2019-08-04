@@ -8,12 +8,13 @@
 <!-- 翻牌 demo 界面 -->
 <template>
   <div class="count-box">
-    <flop class="count-item" size="15-34" align="left"></flop>
+    <flop class="count-item" size="15-34" align="left" :value="flopData"></flop>
   </div>
 </template>
 
 <script>
 import flop from '../components/flop/index'
+import { setInterval, clearInterval } from 'timers'
 export default {
   // 引入控件
   components: {
@@ -22,7 +23,12 @@ export default {
   // 控件缓存数据
   data () {
     return {
-
+      timer: undefined,
+      flopData: {
+        title: '翻牌demo',
+        data: '0',
+        unit: '个'
+      }
     }
   },
   // 即时计算的属性
@@ -39,7 +45,12 @@ export default {
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
-
+    let i = 0
+    let self = this
+    this.timer = setInterval(() => {
+      self.flopData.data = i + ''
+      i++
+    }, 2000)
   },
   // 生命周期 - 创建之前
   beforeCreate () { },
@@ -50,7 +61,9 @@ export default {
   // 生命周期 - 更新之后
   updated () { },
   // 生命周期 - 销毁之前
-  beforeDestroy () { },
+  beforeDestroy () {
+    clearInterval(this.timer)
+  },
   // 生命周期 - 销毁完成
   destroyed () { },
   // 如果页面有keep-alive缓存功能，这个函数会触发

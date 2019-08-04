@@ -42,7 +42,20 @@ export default {
   // 即时计算的属性
   computed: {},
   // 监控data中的数据变化
-  watch: {},
+  watch: {
+    // 检测数值是否有变化,有变化进行翻牌
+    value (val, oldVal) {
+      if (val === oldVal || val === ',' || val === '.') return
+      this.active = false
+      clearTimeout(this.timer)
+      setTimeout(() => {
+        this.active = true
+        this.timer = setTimeout(() => {
+          this.active = false
+        }, 1100)
+      })
+    }
+  },
   // 方法集合
   methods: {
 
